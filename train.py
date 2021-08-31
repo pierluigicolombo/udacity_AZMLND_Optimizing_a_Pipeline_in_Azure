@@ -14,9 +14,10 @@ from azureml.data.dataset_factory import TabularDatasetFactory
 # Data is located at:
 # "https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv"
 
-ds = ### YOUR CODE HERE ###
+ds = TabularDatasetFactory.from_delimited_files(path="https://automlsamplenotebookdata.blob.core.windows.net/automl-sample-notebook-data/bankmarketing_train.csv")
+print(ds.to_pandas_dataframe())
 
-x, y = clean_data(ds)
+
 
 # TODO: Split data into train and test sets.
 
@@ -50,6 +51,11 @@ def clean_data(data):
 
     y_df = x_df.pop("y").apply(lambda s: 1 if s == "yes" else 0)
     
+    return x_df, y_df
+
+x, y = clean_data(ds)
+
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.33, random_state=42)
 
 def main():
     # Add arguments to script
